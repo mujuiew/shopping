@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "c28a9316-5e83-4028-a64e-f02ee6f9cc6a",
+		"name": "api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "shopping",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1849ee06-8178-4442-914f-b8745669e0c1",
+								"exec": [
+									"var expectedHttpStatus = 200;",
+									"var status = \"OK\"",
+									"const responseJson = pm.response.json();",
+									"pm.test(\"Status code is \" + expectedHttpStatus, function () {",
+									"        pm.response.to.have.status(expectedHttpStatus);",
+									"});",
+									"pm.test(\"Status is \" + status, function () {",
+									"    pm.response.to.have.status(status);",
+									"});",
+									"pm.test(\"account id is \" + responseJson.account_id,() => {",
+									"  pm.expect(pm.response.text()).to.include(\"account_id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"iaccount_id\": \"id009\",\n    \"iaccount_first_name\": \"fmame\",\n    \"iaccount_last_name\": \"lnam\",\n    \"iaccount_email\": \"email@htomail.com\",\n    \"iaccount_phone\": \"0900202020\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/register",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d02548b3-db07-447a-9932-92210e364f97",
+								"exec": [
+									"var expectedHttpStatus = 200;",
+									"var status = \"OK\"",
+									"const responseJson = pm.response.json();",
+									"pm.test(\"Status code is \" + expectedHttpStatus, function () {",
+									"        pm.response.to.have.status(expectedHttpStatus);",
+									"});",
+									"pm.test(\"Status is \" + status, function () {",
+									"    pm.response.to.have.status(status);",
+									"});",
+									"pm.test(\"product id is \" + responseJson.product_id,() => {",
+									"  pm.expect(pm.response.text()).to.include(\"product_id\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:8080/account/store?id=ac001",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"account",
+								"store"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "ac001"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "dloan-payment/v1/calculate-installment-amount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"disbursement_amount\": 35000,\n    \"number_of_payment\": 4,\n    \"payment_frequency\": 4.7,\n    \"payment_unit\": \"ss\",\n    \"account_number\":10,\n    \"cal_date\": \"2020-09-01\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/dloan-payment/v1/calculate-installment-amount",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"dloan-payment",
+						"v1",
+						"calculate-installment-amount"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
