@@ -9,13 +9,21 @@ import (
 	"github.com/mujuiew/api-shopping/structtype"
 )
 
-// InsertAccount ...
-func InsertAccount(fname string, lname string, mail string, phone string) (string, string) {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	db, err := sql.Open("postgres", psqlInfo)
-	err = db.Ping()
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "shopping"
+)
 
-	rows, _ := db.Query(`SELECT "ID" FROM Account ORDER BY "ID" DESC LIMIT 1`)
+// InsertAccount ...
+func InsertAccount(db *sql.DB, fname string, lname string, mail string, phone string) (string, string) {
+
+	rows, err := db.Query(`SELECT "ID" FROM Account ORDER BY "ID" DESC LIMIT 1`)
+	if err != nil {
+		panic(err)
+	}
 	for rows.Next() {
 		if err := rows.Scan(&structtype.LastID.AccountID); err != nil {
 			log.Fatal(err)

@@ -5,12 +5,9 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/mujuiew/api-shopping/api"
-	"github.com/mujuiew/api-shopping/models"
 )
 
 func main() {
-	models.InitDB()
-
 	r := mux.NewRouter()
 
 	r.HandleFunc("/register", api.Reister).Methods("POST")
