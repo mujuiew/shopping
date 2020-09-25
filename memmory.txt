@@ -1,10 +1,13 @@
 https://towardsdatascience.com/local-development-set-up-of-postgresql-with-docker-c022632f13ea
 
-
+-postgres-
 docker run -d --name dev-postgres -e POSTGRES_PASSWORD=postgres -v ${HOME}/postgres-data/:/var/lib/postgresql/data -p 5433:5432 postgres
+-----
 
+-pgadmin-
 docker run -p 8081:80  -e 'PGADMIN_DEFAULT_EMAIL=user@domain.local' -e 'PGADMIN_DEFAULT_PASSWORD=SuperSecret' --name dev-pgadmin -d dpage/pgadmin4
 
 {"bridge":{"IPAMConfig":null,"Links":null,"Aliases":null,"NetworkID":"15370da7476e2a05ef5f95d5d5798313be79361d5f794087e43fda90743b7f1c",
 "EndpointID":"3e2340a60b43ef2ce9175fdfb383cc8ea27f1c6a6f3c068530808b544b292402","Gateway":"172.17.0.1","IPAddress":"172.17.0.2",
 "IPPrefixLen":16,"IPv6Gateway":"","GlobalIPv6Address":"","GlobalIPv6PrefixLen":0,"MacAddress":"02:42:ac:11:00:02","DriverOpts":null}}
+-------
