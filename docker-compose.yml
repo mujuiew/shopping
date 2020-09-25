@@ -1,8 +1,8 @@
 version: "3.4"
 
-# networks:
-#   shared-network:
-#     driver: bridge
+networks:
+  shared-network:
+    driver: bridge
 services:
     pgAdmin:
         restart: always
@@ -14,32 +14,33 @@ services:
             PGADMIN_DEFAULT_PASSWORD: SuperSecret
         depends_on:
           - "postgres"
+
     postgres:
-        restart: always
-        image: postgres
-        container_name: "postgres_container"
-        ports:
-            - "5433:5432"
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: shopping
-        volumes:
-           - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      networks:
+        - shared-network
+      hostname: "host"
+      ipc: host
+      pid: "host"
+      restart: always
+      image: postgres
+      container_name: "postgres_container"
+      ports:
+          - "5433:5432"
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: shopping
+      volumes:
+          - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
     app:
-      # image: "api-shopping"
-        # restart: always
-        # pid: "host"
-        # networks:
-        #   - shared-network
-        # hostname: "host"
-        # ipc: host
+      networks:
+        - shared-network
+      hostname: "host"
+      ipc: host
+      pid: "host"
       build: 
           context: .
-          dockerfile: ./Dockerfile
-        # volumes:
-        #   - .:/go/src/app
+          dockerfile: Dockerfile
       ports:
         - "8083:8080"
-        # # command: ["go", "run", "cmd/main.go"]
