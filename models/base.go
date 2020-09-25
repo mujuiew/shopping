@@ -9,14 +9,6 @@ import (
 	"github.com/mujuiew/api-shopping/structtype"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "postgres"
-	password = "postgres"
-	dbname   = "shopping"
-)
-
 // InsertAccount ...
 func InsertAccount(db *sql.DB, fname string, lname string, mail string, phone string) (string, string) {
 
@@ -58,12 +50,8 @@ func InsertAccount(db *sql.DB, fname string, lname string, mail string, phone st
 }
 
 // GetStore ...
-func GetStore(id string) (string, string, string, int, int) {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-	db, err := sql.Open("postgres", psqlInfo)
-	err = db.Ping()
-
-	rows, _ := db.Query(`SELECT "ID", product_name, product_img, product_price, product_amount FROM product WHERE "Account_id" = '` + id + `'`)
+func GetStore(db *sql.DB, id string) (string, string, string, int, int) {
+	rows, err := db.Query(`SELECT "ID", product_name, product_img, product_price, product_amount FROM product WHERE "Account_id" = '` + id + `'`)
 
 	if err != nil {
 		panic(err)

@@ -23,7 +23,6 @@ const (
 
 // Reister ...
 func Reister(w http.ResponseWriter, r *http.Request) {
-	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	psqlInfo := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable",
 		user,
 		password,
@@ -57,6 +56,18 @@ func Reister(w http.ResponseWriter, r *http.Request) {
 
 // Store ...
 func Store(w http.ResponseWriter, r *http.Request) {
+	psqlInfo := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable",
+		user,
+		password,
+		host,
+		port,
+		dbname)
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+	err = db.Ping()
+
 	w.Header().Set("content-type", "application/json; charset=UTF-8;")
 	w.Header().Set("x-request-id", r.Header.Get("x-request-id"))
 	w.Header().Set("x-job-id", r.Header.Get("x-job-id"))
@@ -71,7 +82,7 @@ func Store(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(400)
 		w.Write([]byte("store not present"))
 	}
-	p1, p2, p3, p4, p5 := models.GetStore(Instore)
+	p1, p2, p3, p4, p5 := models.GetStore(db, Instore)
 
 	output := structtype.OutputStore{p1, p2, p3, p4, p5}
 	js, err := json.Marshal(output)
