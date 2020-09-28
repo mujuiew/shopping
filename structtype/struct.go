@@ -9,6 +9,15 @@ type Input struct {
 	IAccountPhone      string `json:"iaccount_phone"`
 }
 
+// InputProdut ...
+type InputProdut struct {
+	IProAccount string `json:"iproduct_account"`
+	IProName    string `json:"iproduct_name"`
+	IProPrice   int    `json:"iproduct_price"`
+	IProAmount  int    `json:"iproduct_amount"`
+	IProImg     string `json:"iproduct_img"`
+}
+
 // Output ...
 type Output struct {
 	AccountID string `json:"account_id"`
@@ -22,6 +31,11 @@ type OutputStore struct {
 	ProductImg    string `json:"product_image"`
 	ProductPrice  int    `json:"product_price"`
 	ProductAmount int    `json:"product_amount"`
+}
+
+// OutputPro ...
+type OutputPro struct {
+	StatusInsert error `json:"status_insert"`
 }
 
 // ProID ...

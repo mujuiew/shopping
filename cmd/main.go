@@ -13,5 +13,7 @@ func main() {
 	r.HandleFunc("/register", api.Reister).Methods("POST")
 	r.HandleFunc("/account/store", api.Store)
 
+	r.HandleFunc("/account/addproduct", api.AddProduct).Methods("POST")
+
 	http.ListenAndServe(":8080", r)
 }

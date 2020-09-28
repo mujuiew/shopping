@@ -92,3 +92,33 @@ func Store(w http.ResponseWriter, r *http.Request) {
 	}
 	w.Write(js)
 }
+
+// AddProduct ...
+func AddProduct(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("content-type", "application/json; charset=UTF-8;")
+	w.Header().Set("x-request-id", r.Header.Get("x-request-id"))
+	w.Header().Set("x-job-id", r.Header.Get("x-job-id"))
+	w.Header().Set("datetime", time.Now().Format(time.RFC3339))
+	w.Header().Set("x-roundtrip", "0.03")
+
+	var in structtype.InputProdut
+	_ = json.NewDecoder(r.Body).Decode(&in)
+	dbcon := models.DB{
+		Host:     host,
+		Port:     port,
+		User:     user,
+		Password: password,
+		DBname:   dbname,
+	}
+	db := models.Connect(dbcon)
+	obj := models.DBs{}                                                                                         //struct
+	text := models.InsertProduct(obj, db, in.IProAccount, in.IProName, in.IProPrice, in.IProAmount, in.IProImg) //โยน struct
+
+	output := structtype.OutputPro{text}
+	js, err := json.Marshal(output)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Write(js)
+}

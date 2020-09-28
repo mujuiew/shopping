@@ -9,6 +9,15 @@ import (
 	"github.com/mujuiew/api-shopping/structtype"
 )
 
+const (
+	// host     = "172.17.106.172"
+	host     = "172.17.0.2"
+	port     = 5432
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "shopping"
+)
+
 // InsertAccount ...
 func InsertAccount(db *sql.DB, fname string, lname string, mail string, phone string) (string, string) {
 
@@ -70,5 +79,48 @@ func GetStore(db *sql.DB, id string) (string, string, string, int, int) {
 	ProductAmount := structtype.PROID.ProductAmount
 
 	return ProductID, ProductName, ProductImg, ProductPrice, ProductAmount
+
+}
+
+// API ...
+type API interface {
+	Exec(db *sql.DB, sql string, args ...interface{}) error
+}
+
+// InsertProduct ...
+func InsertProduct(api API, db *sql.DB, ac string, pname string, pprice int, pamount int, pimg string) error {
+
+	queryStr := `INSERT INTO public.product("Account_id", product_name, product_img, product_price, product_amount)	VALUES ($1, $2,$3,$4,$5)`
+	err := api.Exec(db, queryStr, ac, pname, pprice, pamount, pimg)
+	if err != nil {
+		// panic(err)
+		return err
+	}
+	queryStr2 := `INSERT INTO public.product("Account_id", product_name, product_img, product_price) VALUES ($1, $2,$3,$4)`
+	err2 := api.Exec(db, queryStr2, ac, pname, pprice, pamount)
+
+	if err2 != nil {
+		// panic(err)
+		return err2
+	}
+
+	return nil
+
+}
+
+// DBs ...
+type DBs struct {
+}
+
+// Exec ...
+func (bds DBs) Exec(db *sql.DB, sql string, args ...interface{}) error {
+
+	// queryStr := sql
+	_, err := db.Exec(sql, args)
+	if err != nil {
+		// panic(err)
+		return err
+	}
+	return nil
 
 }
