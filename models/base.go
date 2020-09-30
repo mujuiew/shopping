@@ -10,9 +10,9 @@ import (
 )
 
 const (
-	// host     = "172.17.106.172"
-	host     = "172.17.0.2"
-	port     = 5432
+	// host = "192.168.88.193"
+	host     = "172.20.0.2"
+	port     = 5433
 	user     = "postgres"
 	password = "postgres"
 	dbname   = "shopping"
